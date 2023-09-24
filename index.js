@@ -86,18 +86,6 @@ app.get("/movies/create", function (req, res) {
   const year = req.query.year;
   const rating = req.query.rating || 4;
 
-  const newMovie = {
-    title: title,
-    year: parseInt(year),
-    rating: parseFloat(rating),
-  };
-  movies.push(newMovie);
-  const response = {
-    status: 200,
-    data: movies,
-  };
-  res.status(200).json(response);
-
   if (!title || !year) {
     const response = {
       status: 403,
@@ -115,8 +103,20 @@ app.get("/movies/create", function (req, res) {
       message: "You cannot create a movie without providing a title and a year",
     };
     res.status(403).json(response);
-    return; // Stop execution
+    return;
   }
+
+  const newMovie = {
+    title: title,
+    year: parseInt(year),
+    rating: parseFloat(rating),
+  };
+  movies.push(newMovie);
+  const response = {
+    status: 200,
+    data: movies,
+  };
+  res.status(200).json(response);
 });
 
 // /movies/read

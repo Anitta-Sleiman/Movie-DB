@@ -180,9 +180,42 @@ app.get("/movies/read/:id?", function (req, res) {
   }
 });
 
-// /movies/update
-app.get("/movies/update", function (req, res) {
-  res.send("Update Movie");
+// /movies/update/:id route
+app.get("/movies/update/:id", function (req, res) {
+  const id = parseInt(req.params.id);
+  const newTitle = req.query.title;
+  const newRating = parseFloat(req.query.rating);
+  const newYear = parseInt(req.query.year);
+
+  const updatedMovie = movies.find((movie) => movie.id === id);
+
+  if (!updatedMovie) {
+    const response = {
+      status: 404,
+      error: true,
+      message: `The movie with ID ${id} does not exist`,
+    };
+    res.status(404).json(response);
+    return;
+  }
+
+  if (newTitle !== undefined) {
+    updatedMovie.title = newTitle;
+  }
+
+  if (!isNaN(newRating)) {
+    updatedMovie.rating = newRating;
+  }
+
+  if (!isNaN(newYear)) {
+    updatedMovie.year = newYear;
+  }
+
+  const response = {
+    status: 200,
+    data: movies,
+  };
+  res.status(200).json(response);
 });
 
 // /movies/delete

@@ -95,6 +95,36 @@ app.get("/movies/read", function (req, res) {
   res.json(response);
 });
 
+// /movies/read/by-date
+app.get("/movies/read/by-date", function (req, res) {
+  res.setHeader("Content-Type", "application/json; charset=utf-8");
+  const response = {
+    status: 200,
+    data: movies.sort((a, b) => a.year - b.year),
+  };
+  res.json(response);
+});
+
+// /movies/read/by-rating
+app.get("/movies/read/by-rating", function (req, res) {
+  res.setHeader("Content-Type", "application/json; charset=utf-8");
+  const response = {
+    status: 200,
+    data: movies.sort((a, b) => b.rating - a.rating),
+  };
+  res.json(response);
+});
+
+// /movies/read/by-title
+app.get("/movies/read/by-title", function (req, res) {
+  res.setHeader("Content-Type", "application/json; charset=utf-8");
+  const response = {
+    status: 200,
+    data: movies.sort((a, b) => a.title.localeCompare(b.title)),
+  };
+  res.json(response);
+});
+
 // /movies/update
 app.get("/movies/update", function (req, res) {
   res.send("Update Movie");

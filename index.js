@@ -74,10 +74,10 @@ app.get("/search", function (req, res) {
 
 // list of movies
 const movies = [
-  { title: "Jaws", year: 1975, rating: 8 },
-  { title: "Avatar", year: 2009, rating: 7.8 },
-  { title: "Brazil", year: 1985, rating: 8 },
-  { title: "الإرهاب والكباب‎", year: 1992, rating: 6.2 },
+  { title: "Jaws", year: 1975, rating: 8, id: 1 },
+  { title: "Avatar", year: 2009, rating: 7.8, id: 2 },
+  { title: "Brazil", year: 1985, rating: 8, id: 3 },
+  { title: "الإرهاب والكباب‎", year: 1992, rating: 6.2, id: 4 },
 ];
 
 // /movies/create
@@ -123,6 +123,27 @@ app.get("/movies/read/by-title", function (req, res) {
     data: movies.sort((a, b) => a.title.localeCompare(b.title)),
   };
   res.json(response);
+});
+
+// /movies/read/:id
+app.get("/movies/read/:id?", function (req, res) {
+  res.setHeader("Content-Type", "application/json; charset=utf-8");
+  let id = parseInt(req.params.id);
+  const movie = movies.find((movie) => movie.id === id); //// used to find a movie in the 'movies' array based on the provided 'id' in the URL
+  if (movie) {
+    const response = {
+      status: 200,
+      data: movie,
+    };
+    res.json(response);
+  } else {
+    const response = {
+      status: 404,
+      error: true,
+      message: `the movie ${id} does not exist`,
+    };
+    res.status(404).json(response);
+  }
 });
 
 // /movies/update
